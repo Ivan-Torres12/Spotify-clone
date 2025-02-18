@@ -1,0 +1,63 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { allPlaylists,songs } from '../../lib/data';
+import Playlistcard from "../../components/playlistcard.astro"
+import Musictable from '../../components/musictable.astro';
+import { Cardplaybuton } from '../../components/cardplaybuton';
+
+const {id} = Astro.params
+
+const playlist = allPlaylists.find((playlist) => playlist.id === id )
+const playlistsongs = songs.filter((song)=> song.albumId === playlist?.albumId)
+---
+
+<Layout title="Clone spotify">
+<div id="playlist-container"
+class="relative flex flex-col h-full overflow-x-hidden bg-zinc-900"
+transition:name=`playlists ${id} box`
+>
+    <div class="relative z-10 px-6 pt-6">
+      <header class="flex flex-row gap-8 px-6 mt-12">
+        <picture class=" aspect-square w-52 h-52 float-none">
+            <img src={playlist?.cover} class="object-cover w-full h-full shadow-lg" alt="" transition:name=`playlists ${playlist?.id} image`>
+        </picture>
+
+        <div class="flex flex-col justify-between">
+            <h2 class="flex flex-1 items-end text-white">Playlist</h2>
+            <div>
+                <h1 class="title-clamp text-5xl font-bold block text-white">
+                    {playlist?.title}
+                    <span transition:name=`playlist ${playlist?.id} title`></span>
+                </h1>
+            </div>
+
+            <div class="flex flex-1 items-end">
+                <div class="text-sm text-gray-100 font-normal">
+                    <div transition:name=`playlist ${playlist?.id} artist`>
+                        <span>{playlist?.artists.join(",")}</span>
+                    </div>
+                    <p class="mt-1">
+                        <span class="text-white">Canciones {playlistsongs.length}</span> 3 h aproximadamente
+                    </p>
+                </div>
+            </div>
+        </div>
+       
+      </header>
+      <div class="pl-6 pt-6">
+        <Cardplaybuton id={id} client:load size="large"/>
+     </div>
+      
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80">
+    </div>
+    <section class="p-11 z-10">
+        <Musictable songs={playlistsongs} />
+    </section>
+</div>
+</Layout>
+	
+
+
+<style>
+</style>

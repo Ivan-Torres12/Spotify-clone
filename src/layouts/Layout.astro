@@ -1,0 +1,74 @@
+---
+import AsideMenu from "../components/AsideMenu.astro"
+import Headermenu from "../components/headermenu.astro"
+import Headercenter from "../components/headeecenter.astro"
+import Headerfinal from "../components/headerfinal.astro"
+import { ViewTransitions } from "astro:transitions"
+import {Player} from "../components/player.jsx"
+
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="src/icons/spotify.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions fallback="none" />
+	</head>
+	<body>
+		<div id="app" class="h-screen gap-2 pl-2 pr-2">
+			<header class="  [grid-area:header] grid grid-cols-[1fr_1fr_1fr]">
+				<div  ><Headermenu /></div>
+				<div class="flex items-center ml-7"><Headercenter /></div>
+				<div class="flex items-center justify-end  "><Headerfinal /></div>
+			</header>
+			<aside class=" bg-zinc-800 rounded-lg  [grid-area:aside] flex flex-col overflow-y-auto">
+			  <AsideMenu />
+			</aside>
+			<main class="rounded-lg overflow-y-auto [grid-area:main] ">
+			  <slot />
+			</main>
+			<footer class="  [grid-area:player]  ">
+				<Player client:load  transition:name="media-player" transition:persist />
+			</footer>
+		  </div>
+	</body>
+</html>
+<style>
+	#app{
+		display: grid;
+		grid-template-areas: 
+		"header header header"
+		"aside main main "
+		"player player player"
+		;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: 60px 1fr 80px;
+		}
+</style>
+
+<style is:global>
+	html {
+	  font-family: system-ui, sans-serif;
+	  background: #000;
+	}
+  
+	.font-medium-custom {
+	  font-weight: 500; /* Equivalente a medium en Tailwind */
+	}
+  
+	.font-bold-custom {
+	  font-weight: 700; /* Equivalente a bold en Tailwind */
+	}
+  </style>
+  

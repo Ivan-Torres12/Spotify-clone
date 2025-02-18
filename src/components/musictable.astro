@@ -1,0 +1,54 @@
+---
+import Time from "../icons/time.astro";
+import { type Song } from "../lib/data.ts";
+import {List} from "../components/listplayersong"
+import {Songcontrol} from '../components/duracion';
+
+interface Props {
+  songs: Song[];
+}
+
+const { songs } = Astro.props;
+---
+
+<table class="table-auto text-left min-w-full divide-y divide-gray-500/50 z-10">
+  <thead>
+    <tr class="text-gray-300 text-sm">
+      <th class="px-4 py-2 font-light">Reproducir</th>
+      <th class="px-4 py-2 font-light">#</th>
+      <th class="px-4 py-2 font-light">Titulo</th>
+      <th class="px-4 py-2 font-light">Album</th>
+      <th class="px-4 py-2 font-light"><Time /></th>
+    </tr>
+  </thead>
+  <tbody>
+    {songs.map((song,index) => (
+      <tr
+        class="text-gray-300 text-sm font-light hover:bg-white/10 duration-300 cursor-pointer overflow-hidden rounded-lg"
+      >
+        <td class="flex items-center rounded-tl-lg rounded-bl-lg"><List id={song.id} album={song.albumId}  client:only="react"/></td>
+        <td class="px-2 py-2  w-5 ">{song.id}</td>
+        <td class="px-2 py-2 flex gap-3">
+          <picture>
+            <img class="w-10 h-10" src={song.image} alt={song.title} />
+          </picture>
+          <div class="flex flex-col">
+            <h3 class="text-white text-base font-normal">{song.title}</h3>
+            <span>{song.artists.join(", ")}</span>
+          </div>
+        </td>
+        <td class="px-2 py-2">{song.album}</td>
+        <td class="px-2 py-2">
+          <Songcontrol 
+            id={song.id} 
+            audioSrc={`/music/${song.albumId}/${song.id}.mp3`} 
+            client:only="react"
+          />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+ 
+
+

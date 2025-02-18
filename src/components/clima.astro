@@ -1,0 +1,58 @@
+<div class="absolute top-0 right-0 flex items-start justify-end  p-4">
+    <div class="flex items-center ">
+        <!-- Icono del clima -->
+        <img id="weather-icon" class="w-10 h-10 hidden" alt="icono del clima">
+        <!-- Texto del clima -->
+        <div>
+            <span class="text-lg font-semibold text-white">Clima:</span> 
+            <span class="text-lg font-bold text-yellow-300" id="temperature">Cargando...</span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+window.addEventListener('load', () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lon = position.coords.longitude;
+            const lat = position.coords.latitude;
+
+            const url = `https://api.tomorrow.io/v4/weather/realtime?location=${lat},${lon}&apikey=5Iu6n9wkAKOdYgpgqoeItgvUgiW6F2JF`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                // Obtener los datos del clima
+                const temperature = data.data.values.temperature;
+                const weatherCode = data.data.values.weatherCode;
+
+                // Actualizar la temperatura en el DOM
+                const tempElement = document.getElementById('temperature');
+                tempElement.textContent = `${temperature}°C`;
+
+                // Determinar el ícono según el código del clima
+                const iconElement = document.getElementById('weather-icon');
+                const weatherIcons = {
+                    0: "☀️", // Clear sky
+                    1: "🌤️", // Partially cloudy
+                    2: "☁️", // Cloudy
+                    3: "🌧️", // Rain
+                    4: "⛈️", // Thunderstorm
+                    5: "❄️", // Snow
+                    6: "🌫️"  // Fog
+                };
+                
+                const icon = weatherIcons[weatherCode] || "☀️"; // Default icon
+                iconElement.src = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='50%'>${icon}</text></svg>`;
+                iconElement.classList.remove('hidden'); // Mostrar el ícono
+            } catch (error) {
+                console.error('Error al obtener los datos del clima:', error);
+            }
+        }, (error) => {
+            console.error('No se pudo obtener la ubicación:', error);
+        });
+    }
+});
+</script>

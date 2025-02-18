@@ -1,0 +1,59 @@
+---
+import Libraryicon from "../icons/Library.astro"
+import Sideiconsmenu from "../components/sideiconsmenu.astro"
+import Searchicon from "../icons/search.astro"
+import Sidemenuitem from "../components/sidemenuitem.astro"
+import Moreicon from "../icons/more.astro"
+import Arrowicon from "../icons/arrowicon.astro"
+import Listicon from "../icons/listicon.astro"
+import Sidebutton from "../components/sidebutton.astro"
+import Recientesside from "../components/Recientesside.astro"
+import { playlists } from "../lib/data"
+import Sidemenucard from "./Sidemenucard.astro"
+---
+<div class="flex items-center justify-between px-6 mt-5 text-gray-400">
+  <Sidemenuitem>
+    <Libraryicon />
+    <span class="ml-3 flex items-center">Tu biblioteca</span>
+  </Sidemenuitem>
+    <div class="cursor-pointer space-x-3 text-gray-400 flex items-center">
+      <Sideiconsmenu>
+        <span class="flex text-center  w-8 h-8 items-center justify-center"><Moreicon /></span> 
+       </Sideiconsmenu>
+       <Sideiconsmenu>
+        <span class="flex text-center w-8 h-8 items-center justify-center"><Arrowicon /></span> 
+       </Sideiconsmenu>
+    </div>
+</div>
+<div class="flex space-x-4 h-6 mb-2 justify-start text-white p-6 text-center items-start">
+  <Sidebutton>
+    Artistas
+  </Sidebutton>
+  <Sidebutton>
+    Albumes
+  </Sidebutton>
+</div>
+<div class="flex h-12 justify-between items-center text-gray-400 p-6">
+  <Sideiconsmenu>
+    <span class="flex text-center w-8 h-8 items-center justify-center"><Searchicon /></span> 
+  </Sideiconsmenu>
+  <div class="flex items-center justify-center space-x-2">
+    <Recientesside>
+      <span>Recientes</span>
+      <span class="mt-1"><Listicon /></span>
+    </Recientesside>
+      
+  </div>
+</div>
+<div class="overflow-y-auto no-scrollbar">
+  <ul>
+    {playlists.map(playlists => <Sidemenucard playlists={playlists} />)}
+  </ul>
+</div>
+
+
+
+
+
+  
+  
