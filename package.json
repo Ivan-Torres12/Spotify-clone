@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@astrojs/node": "^9.1.0",
+    "@astrojs/vercel": "^8.0.7"
+  }
+}
