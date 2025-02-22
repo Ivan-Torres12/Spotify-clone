@@ -1,0 +1,12 @@
+{
+    "build": {
+      "env": {
+        "NODE_VERSION": "18"
+      }
+    },
+    "functions": {
+      "**/*.js": {
+        "runtime": "nodejs18.x"
+      }
+    }
+  }
